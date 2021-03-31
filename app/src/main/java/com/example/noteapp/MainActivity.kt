@@ -4,13 +4,14 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ViewHolder.OnItemClickListener {
 
     lateinit var sharedPreferences: SharedPreferences
 
@@ -31,6 +32,15 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onItemClick(position: Int, title: String, description: String) {
+        val intent = Intent(this@MainActivity, DetailsActivity::class.java)
+
+        intent.putExtra("title",title)
+        intent.putExtra("desc",description)
+        startActivity(intent)
+    }
+
+
     fun loadData() {
 
         val json = sharedPreferences.getString("items", null)
@@ -39,10 +49,11 @@ class MainActivity : AppCompatActivity() {
             val gson = Gson()
             val turnsType = object : TypeToken<ArrayList<ItemsObject>>() {}.type
             var turns: ArrayList<ItemsObject> = gson.fromJson(json, turnsType)
-            recyclerView.adapter = RecyclerAdapter(turns)
+            recyclerView.adapter = RecyclerAdapter(turns, this)
 
         }
 
-
     }
+
+
 }

@@ -6,26 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private val itemList: ArrayList<ItemsObject>,
-                      private val onItemClick: (view: View, newsDTO: ItemsObject) -> Unit) : RecyclerView.Adapter<ViewHolder>() {
+class RecyclerAdapter(private val itemList: ArrayList<ItemsObject>,private val listener: ViewHolder.OnItemClickListener) :
+    RecyclerView.Adapter<ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.items, parent, false)
-        return ViewHolder(v)
+        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.items, parent, false)
+        return ViewHolder(itemView,listener)
+
     }
 
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
+    override fun getItemCount() = itemList.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(itemList[position])
 
     }
-
-
 
 
 }

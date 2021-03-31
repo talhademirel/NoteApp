@@ -1,4 +1,3 @@
 package com.example.noteapp
 
-data class ItemsObject(val title: String, val description: String) {
-}
+data class ItemsObject(val title: String, val description: String)
